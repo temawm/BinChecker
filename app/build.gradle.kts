@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt)
+    kotlin("kapt")
 }
 
 android {
@@ -29,28 +31,48 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     buildFeatures {
         compose = true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/gradle/incremental.annotation.processors"
         }
     }
 }
 
 dependencies {
-
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt)
+    implementation(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation (libs.room.runtime)
+    kapt (libs.room.compiler)
+    implementation (libs.room.ktx)
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
+    implementation(libs.squareup.okhttp.logging.interceptor)
+    implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.retrofit2)
+    implementation(libs.squareup.retrofit.converter)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -66,4 +88,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation("androidx.compose.ui:ui:1.5.0")
+    implementation("androidx.compose.material:material:1.3.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
 }
