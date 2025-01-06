@@ -1,4 +1,4 @@
-package com.example.binchecker.data
+package com.example.binchecker.data.api
 
 import dagger.Module
 import dagger.Provides
@@ -31,10 +31,14 @@ object AppModule {
         val httpClient = OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()
+        val gson = com.google.gson.GsonBuilder()
+            .setLenient()
+            .create()
+
         return Retrofit.Builder()
-            .baseUrl("https://binlist.net")
+            .baseUrl("https://lookup.binlist.net")
             .client(httpClient)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

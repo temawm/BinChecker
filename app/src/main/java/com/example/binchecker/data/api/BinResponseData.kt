@@ -1,4 +1,4 @@
-package com.example.binchecker.data
+package com.example.binchecker.data.api
 
 data class BinResponse(
     val number: NumberDetails?, // Информация о номере карты (длина, поддержка алгоритма Luhn)
@@ -21,8 +21,8 @@ data class CountryDetails(
     val name: String?,          // Название страны (например, "Denmark")
     val emoji: String?,         // Эмодзи флага страны (например, "🇩🇰")
     val currency: String?,      // Валюта страны (например, "DKK")
-    val latitude: Int?,         // Географическая широта страны
-    val longitude: Int?         // Географическая долгота страны
+    val latitude: String?,         // Географическая широта страны
+    val longitude: String?         // Географическая долгота страны
 )
 
 data class BankDetails(

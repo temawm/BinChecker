@@ -3,15 +3,16 @@ package com.example.binchecker.presentation.bin_find_info
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.binchecker.data.BinListApi
-import com.example.binchecker.data.BinResponse
+import com.example.binchecker.data.api.BinListApi
+import com.example.binchecker.data.api.BinResponse
+import com.example.binchecker.domain.BinRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.checkerframework.checker.units.qual.s
 import javax.inject.Inject
 
 data class UiState(
@@ -24,29 +25,47 @@ data class UiState(
 
 @HiltViewModel
 class BinFindInfoViewModel @Inject constructor(
-    private val api: BinListApi
+    private val api: BinListApi,
+    private val binRepository: BinRepository
 ) : ViewModel() {
 
-    private lateinit var _binState: BinResponse
+
+
+    private val _binState = MutableStateFlow<BinResponse?>(null)
+    val binState: StateFlow<BinResponse?> = _binState
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState: StateFlow<UiState> = _uiState
 
-    fun sendBin(bin: String){
-        _uiState.value = _uiState.value.copy(
-            binField = bin
-        )
+    private suspend fun saveBinData(binResponse: BinResponse) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-                fetchData(bin)
-            }
+            binRepository.saveBinData(binResponse)
         }
     }
 
+    fun updateState(bin: String) {
+        _uiState.value = _uiState.value.copy(
+            binField = bin
+        )
+    }
+
+    fun sendBin(bin: String){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                if (fetchData(bin)) {
+                    _binState.value?.let {
+                        saveBinData(it)
+                    }
+                }
+            }
+        }
+
+    }
+
     private suspend fun fetchData(bin: String): Boolean {
-        if (checkRequirements(bin)){
+        if (checkRequirements(bin)) {
             val fetchResult: BinResponse = api.getBinDetails(bin = bin)
-            _binState = fetchResult
+            _binState.value = fetchResult
             return true
         }
         else {
@@ -66,7 +85,7 @@ class BinFindInfoViewModel @Inject constructor(
     }
 
     private fun requiredLength(bin: String): Boolean {
-        return bin.length == 6
+        return (bin.length in 6..8)
     }
 
     private fun digitsOnly(bin: String): Boolean{

@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.binchecker.presentation.bin_find_info.BinFindInfoScreen
 import com.example.binchecker.presentation.bin_find_info.BinFindInfoViewModel
 import com.example.binchecker.presentation.bin_history.BinHistoryScreen
+import com.example.binchecker.presentation.bin_history.BinHistoryViewModel
 import com.example.binchecker.presentation.scaffold_screen.HomeScreen
 
 @Composable
@@ -23,7 +24,8 @@ fun AppNavGraph(navController: NavHostController) {
             BinFindInfoScreen(binFindInfoViewModel)
         }
         composable("BinHistoryScreen") {
-            BinHistoryScreen()
+            val binHistoryViewModel: BinHistoryViewModel = hiltViewModel()
+            BinHistoryScreen(binHistoryViewModel)
         }
     }
 
