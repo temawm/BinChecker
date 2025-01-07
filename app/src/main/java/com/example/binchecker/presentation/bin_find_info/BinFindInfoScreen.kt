@@ -28,10 +28,10 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -107,7 +107,7 @@ fun BinFindInfoScreen(viewModel: BinFindInfoViewModel) {
         }
 
         Spacer(modifier = Modifier.height(60.dp))
-        if (binState != null) {
+        if (binState != null && !uiState.value.requestsExceeded) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -308,6 +308,14 @@ fun BinFindInfoScreen(viewModel: BinFindInfoViewModel) {
                     }
                 }
             }
+        }
+        else if (uiState.value.requestsExceeded) {
+            Text(
+                text = "Maximum number of requests reached\n У API ограничение на 5 запросов/час :(",
+                color = Color.Black,
+                fontSize = 20.sp,
+                modifier = Modifier.padding(top = 20.dp, bottom = 40.dp)
+            )
         }
         Button(
             onClick = {viewModel.sendBin(uiState.value.binField)},

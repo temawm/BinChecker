@@ -15,6 +15,7 @@ import javax.inject.Inject
 class BinHistoryViewModel @Inject constructor(
     private val binRepository: BinRepository
 ) : ViewModel() {
+
     private val _binsList = MutableStateFlow<List<BinEntity>>(emptyList())
     val binsList: StateFlow<List<BinEntity>> = _binsList
 

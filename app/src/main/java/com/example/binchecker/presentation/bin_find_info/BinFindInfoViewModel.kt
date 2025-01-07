@@ -18,6 +18,7 @@ data class UiState(
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val binField: String = "",
+    val requestsExceeded: Boolean = false
 )
 
 
@@ -51,10 +52,20 @@ class BinFindInfoViewModel @Inject constructor(
     fun sendBin(bin: String){
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                if (fetchData(bin)) {
-                    _binState.value?.let {
-                        saveBinData(it)
+                try {
+                    if (fetchData(bin)) {
+                        _binState.value?.let {
+                            saveBinData(it)
+                            _uiState.value = _uiState.value.copy(
+                                requestsExceeded = false
+                            )
+                        }
                     }
+                }
+                catch (e: Exception) {
+                    _uiState.value = _uiState.value.copy(
+                        requestsExceeded = true
+                    )
                 }
             }
         }
