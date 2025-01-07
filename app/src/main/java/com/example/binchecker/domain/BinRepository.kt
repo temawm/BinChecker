@@ -26,4 +26,8 @@ class BinRepository @Inject constructor(private val binDao: BinDao) {
     suspend fun getAllBins(): List<BinEntity> {
         return binDao.getAllBins()
     }
+
+    suspend fun deleteBinById(binId: Int) {
+        binDao.deleteBinById(binId)
+    }
 }

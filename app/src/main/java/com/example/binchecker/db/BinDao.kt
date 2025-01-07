@@ -13,4 +13,7 @@ interface BinDao {
 
     @Query("SELECT * FROM bin_response")
     suspend fun getAllBins(): List<BinEntity>
+
+    @Query("DELETE FROM bin_response WHERE id = :binId")
+    suspend fun deleteBinById(binId: Int)
 }

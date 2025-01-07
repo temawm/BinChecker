@@ -111,7 +111,7 @@ fun BinFindInfoScreen(viewModel: BinFindInfoViewModel) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp),
+                    .height(320.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
                 )

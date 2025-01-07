@@ -5,7 +5,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.binchecker.presentation.bin_find_info.BinFindInfoScreen
 import com.example.binchecker.presentation.bin_find_info.BinFindInfoViewModel
 import com.example.binchecker.presentation.bin_history.BinHistoryScreen

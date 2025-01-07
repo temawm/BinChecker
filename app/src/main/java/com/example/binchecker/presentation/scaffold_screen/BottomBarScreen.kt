@@ -1,7 +1,6 @@
 package com.example.binchecker.presentation.scaffold_screen
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigationItem

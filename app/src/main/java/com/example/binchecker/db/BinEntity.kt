@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.example.binchecker.db
 
 import androidx.room.Entity
